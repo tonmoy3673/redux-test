@@ -2,31 +2,49 @@ const {createStore}=require('redux');
 
 // ========> state <=============//
 
-const initialCount={
+const initialState={
     count:0
-};
-
+}
 
 // =========> Action <===========//
 
-const incrementAction=()=>{
+const increaseCount=()=>{
     return{
-        type:'INCREMENT',
-        
-    };
+        type:'INCREMENT'
+    }
 }
 
 //========> reducer <===============//
 
-const reducerCounter=(state=initialCount,action)=>{
+const reducerCount=(state =initialState,action)=>{
     switch (action.type) {
-        case 'INCREMENT':
+        case "INCREMENT":
             return{
+                ...state,
                 count:state.count+1
+
             }
-            
+
+           
     
         default:
             state;
     }
 }
+
+
+// =========> store <==========//
+
+const store=createStore(reducerCount);
+
+store.subscribe(()=>{
+    console.log(store.getState());
+})
+
+// =======> dispatch action <==========//
+
+store.dispatch(increaseCount());
+store.dispatch(increaseCount());
+store.dispatch(increaseCount());
+store.dispatch(increaseCount());
+
