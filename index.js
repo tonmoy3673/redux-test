@@ -1,30 +1,71 @@
+// const {createStore}=require('redux');
+
+// // ========> state <=============//
+
+// const initialState={
+//     count:0
+// }
+
+// // =========> Action <===========//
+
+// const increaseCount=()=>{
+//     return{
+//         type:'INCREMENT'
+//     }
+// }
+
+// //========> reducer <===============//
+
+// const reducerCount=(state =initialState,action)=>{
+//     switch (action.type) {
+//         case "INCREMENT":
+//             return{
+//                 ...state,
+//                 count:state.count+1
+
+//             }
+
+           
+    
+//         default:
+//             state;
+//     }
+// }
+
+
+// // =========> store <==========//
+
+// const store=createStore(reducerCount);
+
+// store.subscribe(()=>{
+//     console.log(store.getState());
+// })
+
+// // =======> dispatch action <==========//
+
+// store.dispatch(increaseCount());
+
+
+
 const {createStore}=require('redux');
 
-// ========> state <=============//
-
 const initialState={
-    count:0
-}
+    count:10
+};
 
-// =========> Action <===========//
-
-const increaseCount=()=>{
+const decrementCount=()=>{
     return{
-        type:'INCREMENT'
-    }
-}
+        type:'DECREMENT'
+    };
+};
 
-//========> reducer <===============//
-
-const reducerCount=(state =initialState,action)=>{
+const reducer=(state=initialState,action)=>{
     switch (action.type) {
-        case "INCREMENT":
-            return{
-                ...state,
-                count:state.count+1
-
-            }
-
+        case "DECREMENT":
+        return{
+            ...state,
+            count:state.count-1
+        }
            
     
         default:
@@ -32,19 +73,10 @@ const reducerCount=(state =initialState,action)=>{
     }
 }
 
-
-// =========> store <==========//
-
-const store=createStore(reducerCount);
-
+const store=createStore(reducer);
 store.subscribe(()=>{
     console.log(store.getState());
-})
+});
 
-// =======> dispatch action <==========//
-
-store.dispatch(increaseCount());
-store.dispatch(increaseCount());
-store.dispatch(increaseCount());
-store.dispatch(increaseCount());
-
+store.dispatch(decrementCount());
+store.dispatch(decrementCount());
