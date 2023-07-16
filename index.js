@@ -1,50 +1,25 @@
-// ===========> Implement increment,decrement,reset <=============//
+// ========= > Add User <=============//
 
 const {createStore}=require('redux');
 
-// ============== State =============//
 const initialState={
-    count:0,
+    user:['Mehedi'],
+    count:1
 };
 
-
-// ================ Action ==================//
-
-const incrementCount=()=>{
+const addUsers=(user)=>{
     return{
-        type:'INCREMENT'
-    }
-};
-const decrementCount=()=>{
-    return{
-        type:'DECREMENT'
-    }
-};
-const resetCount=()=>{
-    return{
-        type:'RESET'
+        type:'ADD_USER',
+        payload:user
     }
 };
 
-
-// ============= reducer ===========//
-
-const countReducer=(state=initialState,action)=>{
+const reducerUser=(state=initialState,action)=>{
     switch (action.type) {
-        case 'INCREMENT':
+        case 'ADD_USER':
             return{
-                ...state,
-                count:state.count+1,
-            }
-            case 'DECREMENT':
-            return{
-                ...state,
-                count:state.count-1,
-            }
-            case 'RESET':
-            return{
-                ...state,
-                count:0,
+               user:[...state.user,action.payload],
+               count:state.count+1
             }
     
         default:
@@ -52,15 +27,9 @@ const countReducer=(state=initialState,action)=>{
     }
 }
 
-// ===========  store ==============//
-
-const store=createStore(countReducer);
+const store=createStore(reducerUser);
 store.subscribe(()=>{
     console.log(store.getState());
 });
-
-store.dispatch(incrementCount());
-store.dispatch(incrementCount());
-store.dispatch(incrementCount());
-store.dispatch(decrementCount());
-store.dispatch(resetCount());
+store.dispatch(addUsers('Hasan'));
+store.dispatch(addUsers('Tonmoy'));
