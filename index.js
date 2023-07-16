@@ -1,82 +1,66 @@
-// const {createStore}=require('redux');
-
-// // ========> state <=============//
-
-// const initialState={
-//     count:0
-// }
-
-// // =========> Action <===========//
-
-// const increaseCount=()=>{
-//     return{
-//         type:'INCREMENT'
-//     }
-// }
-
-// //========> reducer <===============//
-
-// const reducerCount=(state =initialState,action)=>{
-//     switch (action.type) {
-//         case "INCREMENT":
-//             return{
-//                 ...state,
-//                 count:state.count+1
-
-//             }
-
-           
-    
-//         default:
-//             state;
-//     }
-// }
-
-
-// // =========> store <==========//
-
-// const store=createStore(reducerCount);
-
-// store.subscribe(()=>{
-//     console.log(store.getState());
-// })
-
-// // =======> dispatch action <==========//
-
-// store.dispatch(increaseCount());
-
-
+// ===========> Implement increment,decrement,reset <=============//
 
 const {createStore}=require('redux');
 
+// ============== State =============//
 const initialState={
-    count:10
+    count:0,
 };
 
+
+// ================ Action ==================//
+
+const incrementCount=()=>{
+    return{
+        type:'INCREMENT'
+    }
+};
 const decrementCount=()=>{
     return{
         type:'DECREMENT'
-    };
+    }
+};
+const resetCount=()=>{
+    return{
+        type:'RESET'
+    }
 };
 
-const reducer=(state=initialState,action)=>{
+
+// ============= reducer ===========//
+
+const countReducer=(state=initialState,action)=>{
     switch (action.type) {
-        case "DECREMENT":
-        return{
-            ...state,
-            count:state.count-1
-        }
-           
+        case 'INCREMENT':
+            return{
+                ...state,
+                count:state.count+1,
+            }
+            case 'DECREMENT':
+            return{
+                ...state,
+                count:state.count-1,
+            }
+            case 'RESET':
+            return{
+                ...state,
+                count:0,
+            }
     
         default:
             state;
     }
 }
 
-const store=createStore(reducer);
+// ===========  store ==============//
+
+const store=createStore(countReducer);
 store.subscribe(()=>{
     console.log(store.getState());
 });
 
+store.dispatch(incrementCount());
+store.dispatch(incrementCount());
+store.dispatch(incrementCount());
 store.dispatch(decrementCount());
-store.dispatch(decrementCount());
+store.dispatch(resetCount());
