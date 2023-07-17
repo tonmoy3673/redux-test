@@ -1,4 +1,5 @@
-const {createStore, combineReducers}=require('redux');
+const {createStore, applyMiddleware}=require('redux');
+const { default: logger } = require('redux-logger');
 
 // ========= initial state ==========//
 const initialProduct={
@@ -65,37 +66,13 @@ const productReducer=(state=initialProduct,action)=>{
 }
 
 
-// ========== Cart Reducer ==========//
-const cartReducer=(state=initialCart,action)=>{
-    switch (action.type) {
-        case 'GET_CART':
-            
-            return{
-                ...state,
-            }
-            case 'ADD_CART':
-            
-            return{
-                ...state,
-                cart:[...state.cart,action.payload],
-                count:state.count+1,
-            }
 
-    
-        default:
-           return state;
-    }
-}
 
-// ======== root reducer ========//
-const rootReducer=combineReducers({
-    productR: productReducer,
-    cartR: cartReducer,
-})
+
 
 // ======== dispatch =========//
 
-const store=createStore(rootReducer);
+const store=createStore(productReducer,applyMiddleware(logger));
 store.subscribe(()=>{
     console.log(store.getState());
 });
@@ -103,5 +80,3 @@ store.subscribe(()=>{
 store.dispatch(getProduct());
 store.dispatch(addProduct('Mango'));
 store.dispatch(addProduct('Orange'));
-store.dispatch(getCart());
-store.dispatch(addCart('Guava'));
