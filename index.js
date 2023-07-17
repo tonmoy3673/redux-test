@@ -1,4 +1,4 @@
-const {createStore}=require('redux');
+const {createStore, combineReducers}=require('redux');
 
 // ========= initial state ==========//
 const initialProduct={
@@ -42,6 +42,8 @@ const addCart=(cart)=>{
 };
 
 
+
+
 // =========== reducer ===========//
 const productReducer=(state=initialProduct,action)=>{
     switch (action.type) {
@@ -58,7 +60,7 @@ const productReducer=(state=initialProduct,action)=>{
             }
     
         default:
-            state;
+          return  state;
     }
 }
 
@@ -81,20 +83,25 @@ const cartReducer=(state=initialCart,action)=>{
 
     
         default:
-            state;
+           return state;
     }
 }
 
+// ======== root reducer ========//
+const rootReducer=combineReducers({
+    productR: productReducer,
+    cartR: cartReducer,
+})
 
 // ======== dispatch =========//
 
-const store=createStore(cartReducer);
+const store=createStore(rootReducer);
 store.subscribe(()=>{
     console.log(store.getState());
 });
 
-// store.dispatch(getProduct());
-// store.dispatch(addProduct('Mango'));
-// store.dispatch(addProduct('Orange'));
+store.dispatch(getProduct());
+store.dispatch(addProduct('Mango'));
+store.dispatch(addProduct('Orange'));
 store.dispatch(getCart());
 store.dispatch(addCart('Guava'));
