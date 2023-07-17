@@ -1,25 +1,39 @@
-// ========= > Add User <=============//
-
 const {createStore}=require('redux');
 
-const initialState={
-    user:['Mehedi'],
-    count:1
+// ========= initial state ==========//
+const initialProduct={
+    product:['Apple','Banana'],
+    count:2,
 };
 
-const addUsers=(user)=>{
+// ======= Action =========//
+const getProduct=()=>{
     return{
-        type:'ADD_USER',
-        payload:user
+        type:'GET_PRODUCT',
+    };
+
+};
+
+const addProduct =(product)=>{
+    return{
+        type:'ADD_PRODUCT',
+        payload:product,
     }
 };
 
-const reducerUser=(state=initialState,action)=>{
+// =========== reducer ===========//
+const productReducer=(state=initialProduct,action)=>{
     switch (action.type) {
-        case 'ADD_USER':
+        case "GET_PRODUCT":
             return{
-               user:[...state.user,action.payload],
-               count:state.count+1
+                ...state,
+            }
+
+            case "ADD_PRODUCT":
+            return{
+                ...state,
+                product:[...state.product,action.payload],
+                count:state.count+1,
             }
     
         default:
@@ -27,9 +41,14 @@ const reducerUser=(state=initialState,action)=>{
     }
 }
 
-const store=createStore(reducerUser);
+
+// ======== dispatch =========//
+
+const store=createStore(productReducer);
 store.subscribe(()=>{
     console.log(store.getState());
 });
-store.dispatch(addUsers('Hasan'));
-store.dispatch(addUsers('Tonmoy'));
+
+store.dispatch(getProduct());
+store.dispatch(addProduct('Mango'));
+store.dispatch(addProduct('Orange'));
