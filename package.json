@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@redux-requests/axios": "^1.2.0",
+    "axios": "^1.4.0",
+    "axois": "^0.0.1-security",
     "redux": "^4.2.1",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.4.2"
   }
 }

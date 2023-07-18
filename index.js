@@ -1,82 +1,92 @@
+const { default: axios } = require('axios');
 const {createStore, applyMiddleware}=require('redux');
-const { default: logger } = require('redux-logger');
+const { default: thunk } = require('redux-thunk');
 
-// ========= initial state ==========//
-const initialProduct={
-    product:['Apple','Banana'],
-    count:2,
-};
-
-//========== cart state ========//
-const initialCart={
-    cart:['Tomato'],
-    count:1,
-}
-
-// ======= Product Action =========//
-const getProduct=()=>{
-    return{
-        type:'GET_PRODUCT',
-    };
+// ====== state ==========//
+const initialState={
+    todo:[],
+    isLoading:false,
+    error:null,
 
 };
 
-const addProduct =(product)=>{
+// =========  Action =========//
+const getTodo=()=>{
     return{
-        type:'ADD_PRODUCT',
-        payload:product,
+        type:'GET_TODO'
     }
 };
 
-// =========== Cart Action ========//
-const getCart=()=>{
+const successTodo=(todo)=>{
     return{
-        type:'GET_CART'
-    };
+        type:'SUCCESS_TODO',
+        payload:todo,
+    }
 };
 
-const addCart=(cart)=>{
+const failTodo=(error)=>{
     return{
-        type:'ADD_CART',
-        payload:cart,
-    };
+        type:'FAIL_TODO',
+        payload:error,
+    }
 };
 
 
-
-
-// =========== reducer ===========//
-const productReducer=(state=initialProduct,action)=>{
+// ======= reducer ==========//
+const todoReducer=(state=initialState,action)=>{
     switch (action.type) {
-        case "GET_PRODUCT":
+        case "GET_TODO":
+        return{
+            ...state,
+            isLoading:true,
+            
+        };
+        case "SUCCESS_TODO":
             return{
                 ...state,
-            }
-
-            case "ADD_PRODUCT":
+                isLoading:false,
+                todo:action.payload
+                
+            };
+            case "FAIL_TODO":
             return{
                 ...state,
-                product:[...state.product,action.payload],
-                count:state.count+1,
-            }
+                isLoading:false,
+                error:action.payload
+                
+            };
     
         default:
-          return  state;
+            return state;
+    }
+};
+
+// ======= fetch function ========//
+const fetchData=()=>{
+    return (dispatch)=>{
+        dispatch(getTodo())
+        axios.get('https://jsonplaceholder.typicode.com/todos')
+        .then (res=>{
+            const todo=res.data
+            const title=todo.map(list=>list.title)
+            dispatch(successTodo(title));
+        })
+        .catch(error=>{
+            const errorSms=error.message;
+            dispatch(failTodo(errorSms))
+        })
+        
+       
+        
     }
 }
 
 
 
-
-
-
-// ======== dispatch =========//
-
-const store=createStore(productReducer,applyMiddleware(logger));
+// ====== store =========//
+const store=createStore(todoReducer,applyMiddleware(thunk));
 store.subscribe(()=>{
     console.log(store.getState());
 });
 
-store.dispatch(getProduct());
-store.dispatch(addProduct('Mango'));
-store.dispatch(addProduct('Orange'));
+store.dispatch(fetchData());
