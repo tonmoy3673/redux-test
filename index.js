@@ -1,92 +1,85 @@
 const { default: axios } = require('axios');
-const {createStore, applyMiddleware}=require('redux');
+const { applyMiddleware } = require('redux');
+const {createStore}=require('redux');
 const { default: thunk } = require('redux-thunk');
 
-// ====== state ==========//
+// ==========  state ============//
 const initialState={
     todo:[],
     isLoading:false,
     error:null,
-
 };
 
-// =========  Action =========//
-const getTodo=()=>{
+// =============  Action ===============//
+const get=()=>{
     return{
-        type:'GET_TODO'
-    }
+        type:'GET'
+    };
 };
 
-const successTodo=(todo)=>{
+const show=(todo)=>{
     return{
-        type:'SUCCESS_TODO',
+        type:'SHOW',
         payload:todo,
     }
 };
 
-const failTodo=(error)=>{
+const fail=(error)=>{
     return{
-        type:'FAIL_TODO',
+        type:'FAIL',
         payload:error,
     }
 };
 
-
-// ======= reducer ==========//
+// ===============  Reducer =================//
 const todoReducer=(state=initialState,action)=>{
     switch (action.type) {
-        case "GET_TODO":
-        return{
+        case 'GET':
+           return{
             ...state,
             isLoading:true,
-            
-        };
-        case "SUCCESS_TODO":
-            return{
-                ...state,
-                isLoading:false,
-                todo:action.payload
-                
-            };
-            case "FAIL_TODO":
-            return{
-                ...state,
-                isLoading:false,
-                error:action.payload
-                
-            };
+           };
+           case 'SHOW':
+           return{
+            ...state,
+            isLoading:false,
+            todo:action.payload,
+           };
+           case 'FAIL':
+           return{
+            ...state,
+            isLoading:false,
+            error:action.payload,
+           };
     
         default:
             return state;
     }
 };
 
-// ======= fetch function ========//
+// ========= Fetch Function =========//
 const fetchData=()=>{
     return (dispatch)=>{
-        dispatch(getTodo())
+        dispatch(get());
         axios.get('https://jsonplaceholder.typicode.com/todos')
-        .then (res=>{
-            const todo=res.data
-            const title=todo.map(list=>list.title)
-            dispatch(successTodo(title));
+        .then(res=>{
+            const list=res.data
+            const title=list.map(info=>info.title)
+            dispatch(show(title))
         })
         .catch(error=>{
-            const errorSms=error.message;
-            dispatch(failTodo(errorSms))
+            const errorText=error.message
+            dispatch(fail(errorText))
         })
-        
-       
-        
     }
 }
 
-
-
-// ====== store =========//
+// ==========  store ======//
 const store=createStore(todoReducer,applyMiddleware(thunk));
+
+// ============  dispatch ==================//
 store.subscribe(()=>{
-    console.log(store.getState());
+    console.log(store.getState())
 });
 
 store.dispatch(fetchData());
