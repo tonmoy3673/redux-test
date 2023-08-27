@@ -48,3 +48,7 @@ store.subscribe(()=>{
     console.log(store.getState())
 });
 
+store.dispatch(addCount());
+store.dispatch(addCount());
+store.dispatch(removeCount());
+store.dispatch(resetCount());
