@@ -1,8 +1,9 @@
+const { createStore } = require("redux");
 
 
 const initialState={
     count:0
-},
+}
 
 const addCount=()=>{
     return{
@@ -21,14 +22,29 @@ const resetCount=()=>{
 };
 
 const countReducer=(state=initialState,action)=>{
-    switch (action) {
+    switch (action.type) {
         case 'ADD':
         return{
             ...state,
             count:state.count+1
-        }
+        };
+        case 'REMOVE':
+            return{
+                ...state,
+                count:state.count-1
+            };
+            case 'RESET':
+                return{
+                    ...state,
+                    count:0
+                };
     
         default:
-            break;
+            state;
     }
-}
+};
+const store=createStore(countReducer);
+store.subscribe(()=>{
+    console.log(store.getState())
+});
+
