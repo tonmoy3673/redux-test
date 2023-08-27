@@ -19,3 +19,16 @@ const resetCount=()=>{
         type:'RESET'
     }
 };
+
+const countReducer=(state=initialState,action)=>{
+    switch (action) {
+        case 'ADD':
+        return{
+            ...state,
+            count:state.count+1
+        }
+    
+        default:
+            break;
+    }
+}
