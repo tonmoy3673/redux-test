@@ -1,3 +1,5 @@
+const { createStore } = require("redux");
+
 // ========== react counter app with redux ======//
 const initialState={
     count:0
@@ -41,3 +43,13 @@ const countReducer=(state=initialState,action)=>{
             state;
     }
 };
+
+const store=createStore(countReducer);
+store.subscribe(()=>{
+    console.log(store.getState())
+});
+
+store.dispatch(addCount());
+store.dispatch(addCount());
+store.dispatch(removeCount());
+store.dispatch(resetCount());
