@@ -7,3 +7,17 @@ const addCount=()=>{
         type:'ADD'
     }
 };
+const removeCount=()=>{
+    return{
+        type:'REMOVE'
+    }
+};
+const resetCount=()=>{
+    return{
+        type:'RESET'
+    }
+};
+
+const countReducer=()=>{
+
+};
