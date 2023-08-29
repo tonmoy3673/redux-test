@@ -31,7 +31,8 @@ const productReducer=(state=initialStateProduct,action)=>{
     switch (action.type) {
         case 'ADD':
             return{
-                products:state.products+action.payload,
+                ...state,
+                products:[...state.products,action.payload],
                 count:state.count+1
             }
            
@@ -41,7 +42,22 @@ const productReducer=(state=initialStateProduct,action)=>{
     }
 };
 
+const cartReducer=(state=initialStateCart,action)=>{
+    switch (action.type) {
+        case 'ADD':
+           return{
+            ...state,
+            carts:[...state.cart,action.payload],
+            count:state.count+1,
+           }
+    
+        default:
+            return state;
+    }
+}
+
 const store=createStore(rootReducer);
 store.subscribe(()=>{
     console.log(store.getState())
 });
+store.dispatch();
