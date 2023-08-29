@@ -20,9 +20,10 @@ const resetCount=()=>{
     }
 };
 
-const addBy5=()=>{
+const addBy5=(value)=>{
     return{
-        type:'ADD5'
+        type:'ADD5',
+       payload:value,
     }
 }
 
@@ -46,7 +47,8 @@ const countReducer=(state=initialState,action)=>{
          case 'ADD5':
         return{
             ...state,
-            count:state.count+5,
+            count:state.count+action.payload
+            
         };
 
     
@@ -64,3 +66,5 @@ store.dispatch(addCount());
 store.dispatch(addCount());
 store.dispatch(removeCount());
 store.dispatch(resetCount());
+store.dispatch(addBy5(10));
+store.dispatch(addBy5(50));
