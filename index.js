@@ -12,24 +12,22 @@ const initialStateCart={
 
 const setProduct=(products)=>{
     return{
-        type:'ADD',
+        type:'PROD',
         payload:products,
     }
 };
 const setCart=(cart)=>{
     return{
-        type:'ADD',
+        type:'CART',
         payload:cart,
     }
 };
 
-const rootReducer=combineReducers({
 
-});
 
 const productReducer=(state=initialStateProduct,action)=>{
     switch (action.type) {
-        case 'ADD':
+        case 'PROD':
             return{
                 ...state,
                 products:[...state.products,action.payload],
@@ -44,10 +42,10 @@ const productReducer=(state=initialStateProduct,action)=>{
 
 const cartReducer=(state=initialStateCart,action)=>{
     switch (action.type) {
-        case 'ADD':
+        case 'CART':
            return{
             ...state,
-            carts:[...state.cart,action.payload],
+            cart:[...state.cart,action.payload],
             count:state.count+1,
            }
     
@@ -56,8 +54,18 @@ const cartReducer=(state=initialStateCart,action)=>{
     }
 }
 
+const rootReducer=combineReducers({
+    productReducer,
+    cartReducer,
+});
+
+
 const store=createStore(rootReducer);
 store.subscribe(()=>{
     console.log(store.getState())
 });
-store.dispatch();
+// store.dispatch(setProduct('watermelon'));
+store.dispatch(setProduct('pepe'));
+store.dispatch(setCart('tomato'));
+store.dispatch(setCart('nuts'));
+store.dispatch(setCart('orange'));
