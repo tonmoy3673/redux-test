@@ -1,3 +1,5 @@
+const { combineReducers } = require("redux");
+
 const initialStateProduct={
     products:['mango','apple'],
     count:1,
@@ -17,5 +19,23 @@ const setCart=(cart)=>{
     return{
         type:'ADD',
         payload:cart,
+    }
+};
+
+const rootReducer=combineReducers({
+
+});
+
+const productReducer=(state=initialStateProduct,action)=>{
+    switch (action.type) {
+        case 'ADD':
+            return{
+                products:state.products+action.payload,
+                count:state.count+1
+            }
+           
+    
+        default:
+          return state;
     }
 };
