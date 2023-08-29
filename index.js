@@ -46,7 +46,7 @@ const countReducer=(state=initialState,action)=>{
          case 'ADD5':
         return{
             ...state,
-            count:0
+            count:state.count+5,
         };
 
     
