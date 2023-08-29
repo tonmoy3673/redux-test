@@ -20,6 +20,12 @@ const resetCount=()=>{
     }
 };
 
+const addBy5=()=>{
+    return{
+        type:'ADD5'
+    }
+}
+
 const countReducer=(state=initialState,action)=>{
     switch (action.type) {
         case 'ADD':
@@ -33,6 +39,11 @@ const countReducer=(state=initialState,action)=>{
             count:state.count-1
         };
         case 'RESET':
+        return{
+            ...state,
+            count:0
+        };
+         case 'ADD5':
         return{
             ...state,
             count:0
