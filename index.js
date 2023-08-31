@@ -35,7 +35,7 @@ const fetchData=()=>{
         axios.get('https://jsonplaceholder.typicode.com/todos')
         .then((res)=>{
             const todo=res.data;
-            const title=todo.map(todo.title)
+            const title=todo.map(list=>list.title)
             dispatch(showTodo(title))
         })
         .catch((error)=>{
@@ -79,3 +79,8 @@ switch (action.type) {
 };
 
 const store=createStore(todoReducer,applyMiddleware(thunk));
+
+store.subscribe(()=>{
+    console.log(store.getState())
+});
+store.dispatch(fetchData(showTodo()));
