@@ -30,16 +30,19 @@ const failTodo=(error)=>{
 };
 
 const fetchData=()=>{
-    return (dispatch)=>{
+    return(dispatch)=>{
         dispatch(getTodo());
         axios.get('https://jsonplaceholder.typicode.com/todos')
-        .then(res=>{
-            console.log(res.data)
+        .then((res)=>{
+            const todo=res.data;
+            const title=todo.map(todo.title)
+            dispatch(showTodo(title))
         })
         .catch((error)=>{
             dispatch(failTodo(error.message))
         })
-      
+        
+        
     }
 }
 
