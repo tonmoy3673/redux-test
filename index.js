@@ -28,6 +28,13 @@ const failTodo=(error)=>{
     }
 };
 
+const fetchData=()=>{
+    return (dispatch)=>{
+        dispatch(getTodo());
+        
+    }
+}
+
 const todoReducer=(state=initialState,action)=>{
 
 switch (action.type) {
