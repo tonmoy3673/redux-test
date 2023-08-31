@@ -22,4 +22,8 @@ const failTodo=(error)=>{
         type:'FAIL',
         payload:error
     }
+};
+
+const todoReducer=()=>{
+    
 }
