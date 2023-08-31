@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const { applyMiddleware } = require("redux");
 const { createStore } = require("redux");
 const { default: thunk } = require("redux-thunk");
@@ -31,7 +32,14 @@ const failTodo=(error)=>{
 const fetchData=()=>{
     return (dispatch)=>{
         dispatch(getTodo());
-        
+        axios.get('https://jsonplaceholder.typicode.com/todos')
+        .then(res=>{
+            console.log(res.data)
+        })
+        .catch((error)=>{
+            dispatch(failTodo(error.message))
+        })
+      
     }
 }
 
