@@ -1,3 +1,7 @@
+const { applyMiddleware } = require("redux");
+const { createStore } = require("redux");
+const { default: thunk } = require("redux-thunk");
+
 const initialState={
     isLoading:false,
     todo:[],
@@ -54,4 +58,6 @@ switch (action.type) {
         return state;
 }
 
-}
+};
+
+const store=createStore(todoReducer,applyMiddleware(thunk));
